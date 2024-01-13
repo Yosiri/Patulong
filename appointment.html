@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Appointment Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            /* Adjust based on your design */
+        }
+
+        .teacher-card {
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .teacher-card:hover {
+            background-color: #f8f9fa;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Welcome to our Appointment Page</h1>
+        <!-- Teacher Cards -->
+        <div class="teacher-card" onclick="showForm('Teacher 1', 'Math', 'Teaching Math')">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Teacher's Name: Teacher 1</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Subject: Math</h6>
+                    <p class="card-text">Description: Teaching Math</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="teacher-card" onclick="showForm('Teacher 2', 'Science', 'Teaching Science')">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Teacher's Name: Teacher 2</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Subject: Science</h6>
+                    <p class="card-text">Description: Teaching Science</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointment Form Container -->
+        <div class="form-container">
+            <div class="card">
+                <div class="card-body">
+                    <form id="appointmentForm">
+                        <!-- Populate these values dynamically based on the selected teacher -->
+                        <input type="hidden" id="selectedTeacher" value="">
+                        <input type="hidden" id="selectedSubject" value="">
+                        <input type="hidden" id="selectedDescription" value="">
+
+                        <div class="form-group">
+                            <label for="appointmentDate">Select Available Date:</label>
+                            <input type="date" class="form-control" id="appointmentDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone:</label>
+                            <input type="text" class="form-control" id="phone" required>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" onclick="submitForm()">Book Appointment</button>
+                    </form>
+                    <!-- Display area for submitted information -->
+                    <div id="appointmentInfo" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function showForm(teacher, subject, description) {
+                document.getElementById('selectedTeacher').value = teacher;
+                document.getElementById('selectedSubject').value = subject;
+                document.getElementById('selectedDescription').value = description;
+
+                // Hide all form containers
+                const formContainers = document.querySelectorAll('.form-container');
+                formContainers.forEach(container => {
+                    container.style.display = 'none';
+                });
+
+                // Show the relevant form container
+                document.getElementById('appointmentForm').reset(); // Reset form fields
+                document.querySelector('.form-container').style.display = 'block';
+            }
+
+            function submitForm() {
+                const selectedTeacher = document.getElementById('selectedTeacher').value;
+                const selectedSubject = document.getElementById('selectedSubject').value;
+                const selectedDescription = document.getElementById('selectedDescription').value;
+                const appointmentDate = document.getElementById('appointmentDate').value;
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+
+                const appointmentDetails = {
+                    teacher: selectedTeacher,
+                    subject: selectedSubject,
+                    description: selectedDescription,
+                    appointmentDate: appointmentDate,
+                    name: name,
+                    email: email,
+                    phone: phone
+                };
+
+                // Store the data in localStorage
+                localStorage.setItem('submittedAppointment', JSON.stringify(appointmentDetails));
+
+                // Display the submitted information on the current page
+                displaySubmittedInfo(appointmentDetails);
+            }
+
+            function displaySubmittedInfo(info) {
+                document.getElementById('appointmentInfo').innerHTML = `<h3>Submitted Information:</h3>${info}`;
+                // Optionally, you can clear the form or perform any other actions here
+            }
+        </script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home Page</title>
+</head>
+<body>
+
+    <!-- Table to display stored information -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Appointment Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody id="storedInfo"></tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const storedData = localStorage.getItem('submittedAppointment');
+
+            if (storedData) {
+                const appointmentDetails = JSON.parse(storedData);
+                displayStoredInfo(appointmentDetails);
+            }
+        });
+
+        function displayStoredInfo(info) {
+            // Display the stored information in the table
+            const tableBody = document.getElementById('storedInfo');
+            const newRow = tableBody.insertRow();
+
+            const teacherCell = newRow.insertCell(0);
+            const subjectCell = newRow.insertCell(1);
+            const descriptionCell = newRow.insertCell(2);
+            const appointmentDateCell = newRow.insertCell(3);
+            const nameCell = newRow.insertCell(4);
+            const emailCell = newRow.insertCell(5);
+            const phoneCell = newRow.insertCell(6);
+
+            teacherCell.innerHTML = info.teacher;
+            subjectCell.innerHTML = info.subject;
+            descriptionCell.innerHTML = info.description;
+            appointmentDateCell.innerHTML = info.appointmentDate;
+            nameCell.innerHTML = info.name;
+            emailCell.innerHTML = info.email;
+            phoneCell.innerHTML = info.phone;
+        }
+    </script>
+</body>
+</html>
